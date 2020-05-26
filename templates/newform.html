@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+  <style>
+  /* Style the input field */
+  #myInput {
+    padding: 20px;
+    margin-top: -6px;
+    border: 0;
+    border-radius: 0;
+    background: #f1f1f1;
+  }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">ITC KITES PROJECT</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="..">Home</a></li>
+        <li><a href="../admin">Admin portal</a></li>
+      </ul>
+    </div>
+  </nav>  
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <h1>Demonstration Tool</h1>      
+      <p>This Page will generate specification sheet given country and product information. Once the dataset is maintained and enough data is present, it can be produced and presented in any formats. The tool is scalable and utilisable for basic internal purpose in its crude form if required. Dataset can be transferred to other sources if required.</p>
+    </div>
+  </div>
+  
+
+<div class="container-fluid">
+  
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <div class="container">
+      <table  class="table table-dark table-borderless">
+        {{ form}}
+        <!-- <tr>
+          <td><a href='#' class='count'> Select all countries </a></td>>
+          <td><a href='#' class='comm'> Select all commodities </a></td>
+        </tr> -->
+      </table>
+        
+      <button type="submit" class="btn btn-primary btn-lg">Download Specification Sheet</button>
+    </div>
+  </form>
+  
+  
+  <!-- <script>
+    $('.count').click(function(){
+    $('.countries').selectpicker('selectAll');
+    echo("Selected All countries");})
+
+    $('.comm').click(function(){
+    $('.commodities').selectpicker('selectAll');
+    echo("Selected All commodities");})
+        
+    $('.param').click(function(){
+    $('.params').selectpicker('selectAll');
+    echo("Selected All Parameters");})
+  </script> -->
+
+<!-- <a href="/ui/logout">CLICK HERE FOR LOGOUT</a> -->
+</body>
+</html>
+

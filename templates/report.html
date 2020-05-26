@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/TableExport/4.0.11/css/tableexport.min.css">
+
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+  <script type="text/javascript" src="https://fastcdn.org/FileSaver.js/1.1.20151003/FileSaver.min.js"></script>
+
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/TableExport/4.0.11/js/tableexport.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+  <script type="text/javascript" src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css">
+  <script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/excellentexport@3.4.3/dist/excellentexport.min.js"></script>
+  <title>Data_Show</title>
+</head>
+
+<body>
+  <div class='page-header'>
+    <center>
+      <h1>The Data Here at ITC Regulatory Database</h1>
+    </center>
+  </div>
+
+  <div class='container-fluid'>
+
+
+    {% regroup master by country as country_master %}
+    {% for objects in country_master %}
+    <!-- <div class="jumbotron"> -->
+
+
+    <div class="border container jumbotron " id="content">
+
+
+      <div class='country text-body'>
+        <table class='table table-bordered table-hover text-body table-condensed table-active' id="{{objects.grouper}}" >
+          <!-- style="table-layout:fixed; word-wrap:break-word;" -->
+          <tr class="info" style="border-bottom: 5px solid rgb(8, 4, 4);">
+            <th style="background-color:rgb(35, 171, 224);" >Country</th>
+            
+            <td><h3>{{objects.grouper}}</h3></td>
+          </tr>
+          <tr>
+            <th style="background-color:rgb(35, 171, 224);">Regulations</th>
+            <td>{{objects.grouper.note_for_country_regulations}}</td>
+          </tr>
+          <!-- </table> -->
+      </div>
+
+
+      {% regroup objects.list by product as country_commo_master %}
+      {% for vals in country_commo_master %}
+
+      <div class="Product_block container-fluid ">
+      <div class='country_commodity  container'>
+        <!-- <table class='table table-hover'> -->
+        <!-- <tr style="background-color: black;"><th> </th> <th> </th> </tr> -->
+          <tr style="border-top: 5px solid rgb(8, 4, 4);">
+          <th style="background-color:rgb(35, 171, 224);">Product name</th>
+          <th style="background-color:rgb(35, 171, 224);">Type of product</th>
+
+
+        </tr>
+        <tr style="border-bottom: 3px solid #ddd;">
+          <td class="info">{{vals.grouper}}</td>
+          <td>{{vals.grouper.com_type}}</td>
+
+
+        </tr>
+        <tr>
+          <th style="background-color:rgb(35, 171, 224);">Published Commodity</th>
+          <td>{{vals.grouper.published_commodity}}</td>
+        </tr>
+        <tr>
+          <th style="background-color:rgb(35, 171, 224);">Official Definition of Commodity</th>
+          <td>{{vals.grouper.definition_commodity_field}}</td>
+        </tr>
+        <!-- </table> -->
+      </div>
+
+
+      {% regroup vals.list by criticality_of_maintaining as country_commo_crit_master %}
+      {%for crits in country_commo_crit_master %}
+
+
+      <div class='criticality'>
+        <tr class="warning">
+          <td style="background-color:rgb(211, 224, 35);">{{crits.grouper}}</td>
+          <th> </th>
+        </tr>
+      </div>
+
+
+      <div class="Mrl_values">
+        <!-- <table class='table table-hover'> -->
+        <tr>
+          <th style="background-color:rgb(35, 171, 224);">Parameter names</th>
+          <th style="background-color:rgb(35, 171, 224);">Minimum Limit</th>
+          <th style="background-color:rgb(35, 171, 224);">Maximum Limit</th>
+          <th style="background-color:rgb(35, 171, 224);">Unit</th>
+        </tr>
+        {%for params in crits.list%}
+        <tr class="info">
+          <td>{{params.parameter}}</td>
+          <td>{{params.Minimum_Limit}}</td>
+          <td>{{params.Maximum_Limit}}</td>
+          <td>{{params.Unit}}</td>
+        </tr>
+        {%endfor%}
+      </div>
+
+
+      {% endfor %}
+    </div>
+
+      {% endfor %}
+      </table>
+    </div>
+    <!-- <button onclick="exportTableToExcel('{{objects.grouper}}',filename='{{objects.grouper}}')">Export Table Data To Excel File</button> -->
+    <a download="{{objects.grouper}}.xls" href="#" onclick="return ExcellentExport.excel(this, '{{objects.grouper}}', '{{objects.grouper}}');">Export to Excel</a>
+  <!-- </div>   -->
+    <hr class="mt-5 mb-5" />
+  
+    {% endfor %}
+
+  </div>
+
+  <a href="/ui/form">CLICK HERE FOR PREVIOUS PAGE</a>
+  <a href="/ui/logout">CLICK HERE FOR LOGOUT</a>
+</body>
+
+</html>
+
+<script>
+
+// function exportTableToExcel(tableID, filename = ''){
+//   var downloadLink;
+//   var dataType = 'application/vnd.ms-excel';
+//   var tableSelect = document.getElementById(tableID);
+//   var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+  
+//   // Specify file name
+//   filename = filename?filename+'.xls':'excel_data.xls';
+  
+//   // Create download link element
+//   downloadLink = document.createElement("a");
+  
+//   document.body.appendChild(downloadLink);
+  
+//   if(navigator.msSaveOrOpenBlob){
+//       var blob = new Blob(['\ufeff', tableHTML], {
+//           type: dataType
+//       });
+//       navigator.msSaveOrOpenBlob( blob, filename);
+//   }else{
+//       // Create a link to the file
+//       downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+  
+//       // Setting the file name
+//       downloadLink.download = filename;
+      
+//       //triggering the function
+//       downloadLink.click();
+//   }
+// }
+// </script>
