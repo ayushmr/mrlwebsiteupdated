@@ -1,4 +1,4 @@
-Django==3.0.5
+Django==3.1.13
 django-admin-multiple-choice-list-filter==0.1.1
 django-appconf==1.0.4
 django-import-export==2.1.0
